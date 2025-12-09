@@ -1,6 +1,7 @@
 import express from "express";
 import { config } from "./config/env.js";
 import { connectDB, isConnected } from "./config/database.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
@@ -26,6 +27,9 @@ app.get("/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+// API Routes
+app.use("/api/auth", authRoutes);
 
 // Start server function
 const startServer = async () => {
