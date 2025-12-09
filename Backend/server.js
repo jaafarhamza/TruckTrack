@@ -1,17 +1,51 @@
-import express from 'express';
-import { config } from './config/env.js';
+import express from "express";
+import { config } from "./config/env.js";
+import { connectDB, isConnected } from "./config/database.js";
 
 const app = express();
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Routes
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.json({
-    message: 'TruckTrack connect done'
+    message: "TruckTrack API is running",
+    status: "success",
+    database: isConnected() ? "connected" : "disconnected",
+    environment: config.nodeEnv,
   });
 });
 
-app.listen(config.port, () => {
-  console.log(`Server running on port ${config.port}`);
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.json({
+    status: "healthy",
+    database: isConnected() ? "connected" : "disconnected",
+    timestamp: new Date().toISOString(),
+  });
 });
+
+// Start server function
+const startServer = async () => {
+  try {
+    // Connect to MongoDB
+    await connectDB(config.mongodbUri);
+
+    // Start Express server
+    app.listen(config.port, () => {
+      // console.log(`Server running on port ${config.port}`);
+      // console.log(`Environment: ${config.nodeEnv}`);
+      // console.log(`API: http://localhost:${config.port}`);
+    });
+  } catch (error) {
+    // console.error("Failed to start server:", error.message);
+    process.exit(1);
+  }
+};
+
+// Start the server
+startServer();
 
 export default app;
