@@ -4,8 +4,6 @@ export const connectDB = async (mongoUri) => {
   try {
     // Mongoose connection options
     const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       maxPoolSize: 10,
       minPoolSize: 5,
       serverSelectionTimeoutMS: 5000,
