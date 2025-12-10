@@ -2,6 +2,7 @@ import express from "express";
 import { config } from "./config/env.js";
 import { connectDB, isConnected } from "./config/database.js";
 import authRoutes from "./routes/authRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get("/health", (req, res) => {
 
 // API Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Start server function
 const startServer = async () => {
