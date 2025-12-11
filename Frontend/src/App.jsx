@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AdminPanel from './pages/AdminPanel';
 import Unauthorized from './pages/Unauthorized';
+import NotFound from './pages/NotFound';
 import Register from './pages/Register';
 import './App.css';
 
@@ -46,7 +47,7 @@ function App() {
         />
 
         {/* Catch all - 404 */}
-        <Route path="*" element={<div style={{ padding: '40px', textAlign: 'center' }}><h1>404 - Page Not Found</h1></div>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

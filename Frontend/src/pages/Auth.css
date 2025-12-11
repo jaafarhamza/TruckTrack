@@ -1,0 +1,5 @@
+/* Import auth modules */
+@import "./styles/auth/layout.css";
+@import "./styles/auth/card.css";
+@import "./styles/auth/form.css";
+@import "./styles/auth/success.css";

@@ -3,15 +3,24 @@ import { config } from "./config/env.js";
 import { connectDB, isConnected } from "./config/database.js";
 import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
-
+import cors from "cors";
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// CORS configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
+
 // Routes
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.json({
     message: "TruckTrack API is running",
     status: "success",

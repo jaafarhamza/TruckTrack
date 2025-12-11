@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import storage from "../../utils/storage";
+
+// Initialize state from localStorage
+const token = storage.getToken();
+const user = storage.getUser();
 
 const initialState = {
-  user: null,
-  token: null,
-  isAuthenticated: false,
-  loading: false,
+  user: user || null,
+  token: token || null,
+  isAuthenticated: !!(token && user),
+  loading: true, // Start with loading true to prevent premature redirect
 };
 
 const authSlice = createSlice({

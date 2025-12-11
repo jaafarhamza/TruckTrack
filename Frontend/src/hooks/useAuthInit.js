@@ -1,27 +1,52 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setCredentials, setLoading } from "../store/slices/authSlice";
+import { setCredentials, setLoading, logout } from "../store/slices/authSlice";
+import { validateToken } from "../services/authService";
 import storage from "../utils/storage";
 
 export const useAuthInit = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const initAuth = () => {
-      dispatch(setLoading(true));
+    const initAuth = async () => {
+      const token = storage.getToken();
+      const user = storage.getUser();
+
+      if (!token || !user) {
+        dispatch(setLoading(false));
+        return;
+      }
+
+      // Restore credentials from storage
+      dispatch(
+        setCredentials({
+          token,
+          user,
+        })
+      );
+
+      dispatch(setLoading(true)); 
 
       try {
-        const token = storage.getToken();
-        const user = storage.getUser();
+        // Validate token in background
+        const response = await validateToken();
 
-        // If both token and user exist, restore auth state
-        if (token && user) {
-          dispatch(setCredentials({ token, user }));
+        if (response.success) {
+          // Update with fresh user data from server
+          dispatch(
+            setCredentials({
+              token,
+              user: response.data.user,
+            })
+          );
+        } else {
+          storage.clear();
+          dispatch(logout());
         }
-      } catch (error) {
-        console.error("Error initializing auth:", error);
-        // Clear data
+      } catch {
+        // Token expired or invalid
         storage.clear();
+        dispatch(logout());
       } finally {
         dispatch(setLoading(false));
       }
