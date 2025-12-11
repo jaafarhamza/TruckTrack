@@ -3,6 +3,7 @@ import { config } from "./config/env.js";
 import { connectDB, isConnected } from "./config/database.js";
 import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import truckRoutes from "./routes/truckRoutes.js";
 import cors from "cors";
 const app = express();
 
@@ -41,6 +42,7 @@ app.get("/health", (req, res) => {
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/trucks", truckRoutes);
 
 // Start server function
 const startServer = async () => {
