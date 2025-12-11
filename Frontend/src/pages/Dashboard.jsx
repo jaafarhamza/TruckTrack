@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { logout } from '../store/slices/authSlice';
 import storage from '../utils/storage';
+import ProfileModal from '../components/common/ProfileModal';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   const handleLogout = () => {
     storage.clear();
@@ -86,7 +89,7 @@ const Dashboard = () => {
             <p>Welcome back! Here&apos;s your overview.</p>
           </div>
           <div className="header-actions">
-            <div className="user-menu">
+            <div className="user-menu" onClick={() => setIsProfileModalOpen(true)}>
               <div className="user-avatar">
                 {getInitials(user?.firstName, user?.lastName)}
               </div>
@@ -102,11 +105,18 @@ const Dashboard = () => {
         <div className="dashboard-body">
           {/* Welcome Card */}
           <div className="welcome-card">
-            <h2>Hello, {user?.firstName}!</h2>
+            <h2>Hello, {user?.firstName}! 👋</h2>
             <p>Ready to manage your fleet? Let&apos;s get started.</p>
           </div>
         </div>
       </main>
+
+      {/* Profile Modal */}
+      <ProfileModal 
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        initialUser={user}
+      />
     </div>
   );
 };

@@ -121,6 +121,7 @@
 .user-menu:hover {
   background: var(--bg-main);
   border-color: var(--border-default);
+  transform: translateY(-1px);
 }
 
 .user-avatar {
