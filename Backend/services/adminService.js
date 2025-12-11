@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import CustomError from "../utils/CustomError.js";
-import { HTTP_STATUS } from "../utils/constants.js";
+import { HTTP_STATUS, USER_ROLES } from "../utils/constants.js";
 
 // Get all users
 
@@ -25,9 +25,9 @@ export const getUserById = async (userId) => {
 
 export const updateUserRole = async (userId, newRole) => {
   // Validate role
-  if (!["ADMIN", "DRIVER"].includes(newRole)) {
+  if (!Object.values(USER_ROLES).includes(newRole)) {
     throw new CustomError(
-      "Invalid role. Must be ADMIN or DRIVER",
+      `Invalid role. Must be ${USER_ROLES.ADMIN} or ${USER_ROLES.DRIVER}`,
       HTTP_STATUS.BAD_REQUEST
     );
   }
@@ -48,7 +48,7 @@ export const updateUserRole = async (userId, newRole) => {
 // Deactivate user account
 
 export const deactivateUser = async (userId, currentUserId) => {
-    // not allow admin to deactivate himself
+  // not allow admin to deactivate himself
   if (userId.toString() === currentUserId.toString()) {
     throw new CustomError(
       "You cannot deactivate your own account",

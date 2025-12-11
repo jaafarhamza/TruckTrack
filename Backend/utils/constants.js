@@ -4,6 +4,14 @@ export const USER_ROLES = {
   DRIVER: "DRIVER",
 };
 
+//Vehicle Status
+export const VEHICLE_STATUS = {
+  AVAILABLE: "AVAILABLE",
+  ON_TRIP: "ON_TRIP",
+  UNDER_MAINTENANCE: "UNDER_MAINTENANCE",
+  OUT_OF_SERVICE: "OUT_OF_SERVICE",
+};
+
 //HTTP Status Codes
 export const HTTP_STATUS = {
   OK: 200,

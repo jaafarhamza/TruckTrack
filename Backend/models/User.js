@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { config } from "../config/env.js";
+import { USER_ROLES } from "../utils/constants.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -30,10 +31,10 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: {
-        values: ["ADMIN", "DRIVER"],
+        values: Object.values(USER_ROLES),
         message: "{VALUE} is not a valid role",
       },
-      default: "DRIVER",
+      default: USER_ROLES.DRIVER,
     },
     lastName: {
       type: String,
@@ -53,7 +54,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: function () {
-        return this.role === "DRIVER";
+        return this.role === USER_ROLES.DRIVER;
       },
     },
     hireDate: {

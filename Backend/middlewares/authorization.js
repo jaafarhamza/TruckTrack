@@ -1,6 +1,5 @@
 import { errorResponse } from "../utils/responseFormatter.js";
-import { HTTP_STATUS } from "../utils/constants.js";
-
+import { HTTP_STATUS, USER_ROLES } from "../utils/constants.js";
 
 export const checkRole = (allowedRoles) => {
   return (req, res, next) => {
@@ -27,7 +26,7 @@ export const checkRole = (allowedRoles) => {
 };
 // check if user is an admin
 
-export const isAdmin = checkRole(["ADMIN"]);
+export const isAdmin = checkRole([USER_ROLES.ADMIN]);
 
 // check if user is a driver
-export const isDriver = checkRole(["DRIVER"]);
+export const isDriver = checkRole([USER_ROLES.DRIVER]);
