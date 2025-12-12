@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AdminPanel from './pages/AdminPanel';
+import TrucksPage from './pages/TrucksPage';
 import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
@@ -42,6 +43,15 @@ function App() {
           element={
             <RoleBasedRoute allowedRoles={['ADMIN']}>
               <AdminPanel />
+            </RoleBasedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/trucks"
+          element={
+            <RoleBasedRoute allowedRoles={['ADMIN']}>
+              <TrucksPage />
             </RoleBasedRoute>
           }
         />
