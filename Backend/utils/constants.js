@@ -33,3 +33,26 @@ export const HTTP_STATUS = {
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500,
 };
+
+//Tire Status
+export const TIRE_STATUS = {
+  NEW: "NEW",
+  GOOD: "GOOD",
+  WORN: "WORN",
+  TO_REPLACE: "TO_REPLACE",
+};
+
+//Tire Position
+export const TIRE_POSITION = {
+  FRONT_LEFT: "FRONT_LEFT",
+  FRONT_RIGHT: "FRONT_RIGHT",
+  REAR_LEFT: "REAR_LEFT",
+  REAR_RIGHT: "REAR_RIGHT",
+  SPARE: "SPARE",
+};
+
+//Vehicle Type
+export const VEHICLE_TYPE = {
+  TRUCK: "Truck",
+  TRAILER: "Trailer",
+};

@@ -129,6 +129,14 @@ trailerSchema.virtual("maxPayload").get(function () {
   return this.loadCapacity - this.tareWeight;
 });
 
+// Virtual to populate tires
+trailerSchema.virtual("tires", {
+  ref: "Tire",
+  localField: "_id",
+  foreignField: "vehicle",
+  match: { vehicleType: "Trailer" },
+});
+
 // Method to check if trailer is available
 trailerSchema.methods.isAvailable = function () {
   return this.status === VEHICLE_STATUS.AVAILABLE;

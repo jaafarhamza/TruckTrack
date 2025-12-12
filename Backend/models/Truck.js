@@ -94,6 +94,14 @@ truckSchema.virtual("age").get(function () {
   return new Date().getFullYear() - this.year;
 });
 
+// Virtual to populate tires
+truckSchema.virtual("tires", {
+  ref: "Tire",
+  localField: "_id",
+  foreignField: "vehicle",
+  match: { vehicleType: "Truck" },
+});
+
 // Method to check if truck is available
 truckSchema.methods.isAvailable = function () {
   return this.status === VEHICLE_STATUS.AVAILABLE;
