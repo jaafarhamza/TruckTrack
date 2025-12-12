@@ -110,7 +110,6 @@ const trailerSchema = new mongoose.Schema(
 );
 
 // Indexes
-trailerSchema.index({ plateNumber: 1 });
 trailerSchema.index({ status: 1 });
 trailerSchema.index({ type: 1 });
 trailerSchema.index({ brand: 1, model: 1 });

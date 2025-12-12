@@ -3,7 +3,7 @@ import * as trailerController from "../controllers/trailerController.js";
 import * as trailerValidation from "../middlewares/trailerValidation.js";
 import { protect } from "../middlewares/auth.js";
 import { isAdmin } from "../middlewares/authorization.js";
-import { validate } from "../middlewares/validation.js";
+import { validate } from "../middlewares/validate.js";
 
 const router = express.Router();
 

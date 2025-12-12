@@ -86,7 +86,6 @@ const truckSchema = new mongoose.Schema(
 );
 
 // Indexes for better query performance
-truckSchema.index({ plateNumber: 1 });
 truckSchema.index({ status: 1 });
 truckSchema.index({ brand: 1, model: 1 });
 
