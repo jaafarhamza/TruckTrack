@@ -5,6 +5,7 @@ import authRoutes from "./routes/authRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import truckRoutes from "./routes/truckRoutes.js";
 import trailerRoutes from "./routes/trailerRoutes.js";
+import tireRoutes from "./routes/tireRoutes.js";
 import cors from "cors";
 const app = express();
 
@@ -45,6 +46,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/trucks", truckRoutes);
 app.use("/api/trailers", trailerRoutes);
+app.use("/api/tires", tireRoutes);
 
 // Start server function
 const startServer = async () => {

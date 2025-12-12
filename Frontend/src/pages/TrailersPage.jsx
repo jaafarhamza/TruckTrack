@@ -305,12 +305,12 @@ const TrailersPage = () => {
                           <div className="plate-number">{trailer.plateNumber}</div>
                         </td>
                         <td>
-                          <span className="trailer-type">{trailer.type.replace('_', ' ')}</span>
+                          <span className="brand-model">{trailer.type.replace('_', ' ')}</span>
                         </td>
                         <td>
                           <div className="brand-model">
-                            <div className="brand">{trailer.brand}</div>
-                            <div className="model">{trailer.model}</div>
+                            <div className="truck-brand">{trailer.brand}</div>
+                            <div className="truck-model">{trailer.model}</div>
                           </div>
                         </td>
                         <td>{trailer.year}</td>
