@@ -12,6 +12,16 @@ export const VEHICLE_STATUS = {
   OUT_OF_SERVICE: "OUT_OF_SERVICE",
 };
 
+//Trailer Types
+export const TRAILER_TYPES = {
+  FLATBED: "FLATBED",
+  REFRIGERATED: "REFRIGERATED",
+  TANKER: "TANKER",
+  CONTAINER: "CONTAINER",
+  LOWBOY: "LOWBOY",
+  DRY_VAN: "DRY_VAN",
+};
+
 //HTTP Status Codes
 export const HTTP_STATUS = {
   OK: 200,
