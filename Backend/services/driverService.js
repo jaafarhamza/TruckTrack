@@ -95,3 +95,126 @@ export const getDriverStats = async () => {
     inactive,
   };
 };
+
+export const createDriver = async (driverData) => {
+  const { username, email, password, lastName, firstName, phone, license } =
+    driverData;
+
+  // Check if user already exists
+  const existingUser = await User.findOne({
+    $or: [{ email }, { username }],
+  });
+
+  if (existingUser) {
+    throw new CustomError(
+      existingUser.email === email
+        ? "Email already registered"
+        : "Username already taken",
+      HTTP_STATUS.CONFLICT
+    );
+  }
+
+  // Check if license already exists
+  if (license) {
+    const existingLicense = await User.findOne({ license });
+    if (existingLicense) {
+      throw new CustomError("License already registered", HTTP_STATUS.CONFLICT);
+    }
+  }
+
+  // Create driver with DRIVER role
+  const driver = await User.create({
+    username,
+    email,
+    password,
+    role: USER_ROLES.DRIVER,
+    lastName,
+    firstName,
+    phone,
+    license,
+    active: true,
+  });
+
+  // Remove password from response
+  const driverResponse = driver.toObject();
+  delete driverResponse.password;
+
+  return driverResponse;
+};
+
+export const updateDriver = async (driverId, updateData) => {
+  const driver = await User.findOne({
+    _id: driverId,
+    role: USER_ROLES.DRIVER,
+  });
+
+  if (!driver) {
+    throw new CustomError("Driver not found", HTTP_STATUS.NOT_FOUND);
+  }
+
+  // If updating email, check for duplicates
+  if (updateData.email && updateData.email !== driver.email) {
+    const existingEmail = await User.findOne({
+      email: updateData.email,
+      _id: { $ne: driverId },
+    });
+
+    if (existingEmail) {
+      throw new CustomError("Email already registered", HTTP_STATUS.CONFLICT);
+    }
+  }
+
+  // If updating username, check for duplicates
+  if (updateData.username && updateData.username !== driver.username) {
+    const existingUsername = await User.findOne({
+      username: updateData.username,
+      _id: { $ne: driverId },
+    });
+
+    if (existingUsername) {
+      throw new CustomError("Username already taken", HTTP_STATUS.CONFLICT);
+    }
+  }
+
+  // If updating license, check for duplicates
+  if (updateData.license && updateData.license !== driver.license) {
+    const existingLicense = await User.findOne({
+      license: updateData.license,
+      _id: { $ne: driverId },
+    });
+
+    if (existingLicense) {
+      throw new CustomError("License already registered", HTTP_STATUS.CONFLICT);
+    }
+  }
+
+  // Prevent role change
+  delete updateData.role;
+  delete updateData.password;
+
+  const updatedDriver = await User.findByIdAndUpdate(driverId, updateData, {
+    new: true,
+    runValidators: true,
+  }).select("-password");
+
+  return updatedDriver;
+};
+
+export const toggleDriverStatus = async (driverId) => {
+  const driver = await User.findOne({
+    _id: driverId,
+    role: USER_ROLES.DRIVER,
+  });
+
+  if (!driver) {
+    throw new CustomError("Driver not found", HTTP_STATUS.NOT_FOUND);
+  }
+
+  driver.active = !driver.active;
+  await driver.save();
+
+  const driverResponse = driver.toObject();
+  delete driverResponse.password;
+
+  return driverResponse;
+};

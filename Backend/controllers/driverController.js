@@ -2,7 +2,6 @@ import * as driverService from "../services/driverService.js";
 import { successResponse, errorResponse } from "../utils/responseFormatter.js";
 import { HTTP_STATUS } from "../utils/constants.js";
 
-
 export const getAllDrivers = async (req, res) => {
   try {
     const { page, limit, search, active, sortBy, sortOrder } = req.query;
@@ -78,6 +77,60 @@ export const getDriverStats = async (req, res) => {
       HTTP_STATUS.OK,
       "Driver statistics retrieved successfully",
       { stats }
+    );
+  } catch (error) {
+    return errorResponse(
+      res,
+      error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      error.message
+    );
+  }
+};
+
+export const createDriver = async (req, res) => {
+  try {
+    const driver = await driverService.createDriver(req.body);
+
+    return successResponse(
+      res,
+      HTTP_STATUS.CREATED,
+      "Driver created successfully",
+      { driver }
+    );
+  } catch (error) {
+    return errorResponse(
+      res,
+      error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      error.message
+    );
+  }
+};
+
+export const updateDriver = async (req, res) => {
+  try {
+    const driver = await driverService.updateDriver(req.params.id, req.body);
+
+    return successResponse(res, HTTP_STATUS.OK, "Driver updated successfully", {
+      driver,
+    });
+  } catch (error) {
+    return errorResponse(
+      res,
+      error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      error.message
+    );
+  }
+};
+
+export const toggleDriverStatus = async (req, res) => {
+  try {
+    const driver = await driverService.toggleDriverStatus(req.params.id);
+
+    return successResponse(
+      res,
+      HTTP_STATUS.OK,
+      `Driver ${driver.active ? "activated" : "deactivated"} successfully`,
+      { driver }
     );
   } catch (error) {
     return errorResponse(
