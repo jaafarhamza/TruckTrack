@@ -7,6 +7,7 @@ import truckRoutes from "./routes/truckRoutes.js";
 import trailerRoutes from "./routes/trailerRoutes.js";
 import tireRoutes from "./routes/tireRoutes.js";
 import fuelRoutes from "./routes/fuelRoutes.js";
+import driverRoutes from "./routes/driverRoutes.js";
 import cors from "cors";
 const app = express();
 
@@ -49,6 +50,7 @@ app.use("/api/trucks", truckRoutes);
 app.use("/api/trailers", trailerRoutes);
 app.use("/api/tires", tireRoutes);
 app.use("/api/fuel", fuelRoutes);
+app.use("/api/drivers", driverRoutes);
 
 // Start server function
 const startServer = async () => {
