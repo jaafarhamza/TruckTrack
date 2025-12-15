@@ -56,3 +56,11 @@ export const VEHICLE_TYPE = {
   TRUCK: "Truck",
   TRAILER: "Trailer",
 };
+
+//Fuel Type
+export const FUEL_TYPE = {
+  DIESEL: "DIESEL",
+  GASOLINE: "GASOLINE",
+  ELECTRIC: "ELECTRIC",
+  HYBRID: "HYBRID",
+};
