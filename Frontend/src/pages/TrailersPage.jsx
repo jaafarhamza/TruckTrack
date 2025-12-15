@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import * as trailerService from '../services/trailerService';
 import Sidebar from '../components/common/Sidebar';
 import TrailerFormModal from '../components/common/TrailerFormModal';
@@ -8,11 +9,12 @@ import './TrailersPage.css';
 
 const TrailersPage = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
+  const [searchParams] = useSearchParams();
   
   const [trailers, setTrailers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
   const [statusFilter, setStatusFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);

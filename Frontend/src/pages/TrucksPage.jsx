@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import * as truckService from '../services/truckService';
 import Sidebar from '../components/common/Sidebar';
 import TruckFormModal from '../components/common/TruckFormModal';
@@ -8,11 +9,12 @@ import './TrucksPage.css';
 
 const TrucksPage = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
+  const [searchParams] = useSearchParams();
   
   const [trucks, setTrucks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
   const [statusFilter, setStatusFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);

@@ -1,0 +1,53 @@
+.tire-position-diagram {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.tire-position-diagram h4 {
+  margin: 0 0 var(--space-4) 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.diagram-svg {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  margin-bottom: var(--space-4);
+}
+
+.diagram-legend {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-dot.empty {
+  background: transparent;
+  border: 2px dashed #6b7280;
+}
+
+.legend-item span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
