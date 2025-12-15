@@ -11,6 +11,7 @@ import AdminPanel from './pages/AdminPanel';
 import TrucksPage from './pages/TrucksPage';
 import TrailersPage from './pages/TrailersPage';
 import TiresPage from './pages/TiresPage';
+import FuelPage from './pages/FuelPage';
 import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
@@ -72,6 +73,15 @@ function App() {
           element={
             <RoleBasedRoute allowedRoles={['ADMIN']}>
               <TiresPage />
+            </RoleBasedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/fuel"
+          element={
+            <RoleBasedRoute allowedRoles={['ADMIN']}>
+              <FuelPage />
             </RoleBasedRoute>
           }
         />

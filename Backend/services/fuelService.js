@@ -145,11 +145,15 @@ export const getFuelStatistics = async (filters = {}) => {
   let totalDistance = 0;
   let consumptionSum = 0;
   let consumptionCount = 0;
+  const fuelTypeCount = {};
 
   for (let i = 0; i < fuelRecords.length; i++) {
     const record = fuelRecords[i];
     totalVolume += record.volume;
     totalCost += record.totalCost;
+
+    // Count fuel types
+    fuelTypeCount[record.fuelType] = (fuelTypeCount[record.fuelType] || 0) + 1;
 
     if (i > 0) {
       const distance = record.currentKm - fuelRecords[i - 1].currentKm;
@@ -176,6 +180,7 @@ export const getFuelStatistics = async (filters = {}) => {
       totalDistance > 0
         ? Math.round((totalCost / totalDistance) * 100) / 100
         : 0,
+    fuelTypeDistribution: fuelTypeCount,
   };
 };
 

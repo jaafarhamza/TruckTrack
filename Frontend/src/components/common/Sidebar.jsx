@@ -112,6 +112,14 @@ const Sidebar = () => {
                   Tires
                 </Link>
                 
+                <Link to="/admin/fuel" className={`nav-dropdown-item ${isActive('/admin/fuel') ? 'active' : ''}`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 3v18h18"/>
+                    <path d="m19 9-5 5-4-4-3 3"/>
+                  </svg>
+                  Fuel
+                </Link>
+                
                 <Link to="/admin" className={`nav-dropdown-item ${isActive('/admin') ? 'active' : ''}`}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>

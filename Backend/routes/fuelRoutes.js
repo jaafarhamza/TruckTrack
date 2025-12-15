@@ -1,7 +1,8 @@
 import express from "express";
 import * as fuelController from "../controllers/fuelController.js";
 import * as fuelValidation from "../middlewares/fuelValidation.js";
-import { protect, authorize } from "../middlewares/auth.js";
+import { protect } from "../middlewares/auth.js";
+import { isAdmin } from "../middlewares/authorization.js";
 import { validate } from "../middlewares/validate.js";
 import { USER_ROLES } from "../utils/constants.js";
 
@@ -12,7 +13,7 @@ router.use(protect);
 router
   .route("/")
   .post(
-    authorize(USER_ROLES.ADMIN),
+    isAdmin,
     fuelValidation.createFuelValidation,
     validate,
     fuelController.createFuelRecord
@@ -31,13 +32,13 @@ router
     fuelController.getFuelRecordById
   )
   .put(
-    authorize(USER_ROLES.ADMIN),
+    isAdmin,
     fuelValidation.updateFuelValidation,
     validate,
     fuelController.updateFuelRecord
   )
   .delete(
-    authorize(USER_ROLES.ADMIN),
+    isAdmin,
     fuelValidation.fuelIdValidation,
     validate,
     fuelController.deleteFuelRecord
