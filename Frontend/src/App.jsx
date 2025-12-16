@@ -14,6 +14,7 @@ import TiresPage from './pages/TiresPage';
 import FuelPage from './pages/FuelPage';
 import DriversPage from './pages/DriversPage';
 import TripsPage from './pages/TripsPage';
+import DriverDashboard from './pages/DriverDashboard';
 import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
@@ -102,6 +103,25 @@ function App() {
           element={
             <RoleBasedRoute allowedRoles={['ADMIN']}>
               <TripsPage />
+            </RoleBasedRoute>
+          }
+        />
+
+        {/* Driver routes */}
+        <Route
+          path="/driver"
+          element={
+            <RoleBasedRoute allowedRoles={['DRIVER']}>
+              <DriverDashboard />
+            </RoleBasedRoute>
+          }
+        />
+
+        <Route
+          path="/driver/trips"
+          element={
+            <RoleBasedRoute allowedRoles={['DRIVER']}>
+              <DriverDashboard />
             </RoleBasedRoute>
           }
         />

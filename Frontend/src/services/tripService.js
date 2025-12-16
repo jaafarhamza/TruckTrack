@@ -40,6 +40,18 @@ export const getMyTrips = async (params = {}) => {
   return response.data;
 };
 
+// Get my trip by ID (for driver)
+export const getMyTripById = async (id) => {
+  const response = await api.get(`/trips/my-trips/${id}`);
+  return response.data;
+};
+
+// Get my trip stats (for driver)
+export const getMyTripStats = async () => {
+  const response = await api.get("/trips/my-trips/stats");
+  return response.data;
+};
+
 // Get driver trips
 export const getDriverTrips = async (driverId, params = {}) => {
   const queryParams = new URLSearchParams();

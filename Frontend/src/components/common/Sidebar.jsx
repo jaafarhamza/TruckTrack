@@ -155,6 +155,19 @@ const Sidebar = () => {
             )}
           </div>
         )}
+
+        {/* Driver Navigation */}
+        {user?.role === 'DRIVER' && (
+          <Link to="/driver/trips" className={`nav-item ${isActive('/driver/trips') || isActive('/driver') ? 'active' : ''}`}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="6" cy="6" r="3"/>
+              <circle cx="18" cy="18" r="3"/>
+              <path d="M6 9v4c0 1.1.9 2 2 2h4"/>
+              <path d="M14 15l4 4"/>
+            </svg>
+            My Trips
+          </Link>
+        )}
       </nav>
       
       <div className="sidebar-footer">
