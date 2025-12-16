@@ -64,3 +64,11 @@ export const FUEL_TYPE = {
   ELECTRIC: "ELECTRIC",
   HYBRID: "HYBRID",
 };
+
+//Trip Status
+export const TRIP_STATUS = {
+  PLANNED: "PLANNED",
+  IN_PROGRESS: "IN_PROGRESS",
+  COMPLETED: "COMPLETED",
+  CANCELLED: "CANCELLED",
+};
