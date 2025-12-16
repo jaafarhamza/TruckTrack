@@ -11,6 +11,7 @@ import driverRoutes from "./routes/driverRoutes.js";
 import tripRoutes from "./routes/tripRoutes.js";
 import maintenanceRuleRoutes from "./routes/maintenanceRuleRoutes.js";
 import maintenanceAlertRoutes from "./routes/maintenanceAlertRoutes.js";
+import statisticsRoutes from "./routes/statisticsRoutes.js";
 import cors from "cors";
 const app = express();
 
@@ -57,6 +58,7 @@ app.use("/api/drivers", driverRoutes);
 app.use("/api/trips", tripRoutes);
 app.use("/api/maintenance-rules", maintenanceRuleRoutes);
 app.use("/api/maintenance-alerts", maintenanceAlertRoutes);
+app.use("/api/statistics", statisticsRoutes);
 
 // Start server function
 const startServer = async () => {
