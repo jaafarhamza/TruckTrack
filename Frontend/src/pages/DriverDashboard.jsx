@@ -551,6 +551,24 @@ const DriverDashboard = () => {
             {selectedTrip.status === TRIP_STATUS.PLANNED && (
               <div className="trip-actions">
                 <button 
+                  className="btn btn-md btn-ghost"
+                  onClick={async () => {
+                    try {
+                      await tripService.downloadMyTripPDF(selectedTrip._id, selectedTrip.tripNumber);
+                      showToast('PDF downloaded successfully!');
+                    } catch {
+                      showToast('Failed to download PDF', 'error');
+                    }
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download PDF
+                </button>
+                <button 
                   className="btn btn-md btn-success"
                   onClick={() => {
                     setStartModal({ isOpen: true, trip: selectedTrip, startKm: selectedTrip.truck?.mileage || '' });
@@ -567,6 +585,24 @@ const DriverDashboard = () => {
             {selectedTrip.status === TRIP_STATUS.IN_PROGRESS && (
               <div className="trip-actions">
                 <button 
+                  className="btn btn-md btn-ghost"
+                  onClick={async () => {
+                    try {
+                      await tripService.downloadMyTripPDF(selectedTrip._id, selectedTrip.tripNumber);
+                      showToast('PDF downloaded successfully!');
+                    } catch {
+                      showToast('Failed to download PDF', 'error');
+                    }
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download PDF
+                </button>
+                <button 
                   className="btn btn-md btn-success"
                   onClick={() => {
                     setCompleteModal({ isOpen: true, trip: selectedTrip, endKm: '', remarks: '' });
@@ -577,6 +613,29 @@ const DriverDashboard = () => {
                     <polyline points="22 4 12 14.01 9 11.01"/>
                   </svg>
                   Complete Trip
+                </button>
+              </div>
+            )}
+
+            {(selectedTrip.status === TRIP_STATUS.COMPLETED || selectedTrip.status === TRIP_STATUS.CANCELLED) && (
+              <div className="trip-actions">
+                <button 
+                  className="btn btn-md btn-primary"
+                  onClick={async () => {
+                    try {
+                      await tripService.downloadMyTripPDF(selectedTrip._id, selectedTrip.tripNumber);
+                      showToast('PDF downloaded successfully!');
+                    } catch {
+                      showToast('Failed to download PDF', 'error');
+                    }
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download PDF
                 </button>
               </div>
             )}

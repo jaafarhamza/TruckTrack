@@ -67,6 +67,23 @@ export const completeMyTrip = async (id, endKm, remarks) => {
   return response.data;
 };
 
+// Download my trip PDF (for driver)
+export const downloadMyTripPDF = async (id, tripNumber) => {
+  const response = await api.get(`/trips/my-trips/${id}/pdf`, {
+    responseType: "blob",
+  });
+
+  // Create download link
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", `trip-${tripNumber || id}.pdf`);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.URL.revokeObjectURL(url);
+};
+
 // Get driver trips
 export const getDriverTrips = async (driverId, params = {}) => {
   const queryParams = new URLSearchParams();

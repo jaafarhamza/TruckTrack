@@ -1,4 +1,5 @@
 import * as tripService from "../services/tripService.js";
+import { generateTripPDF } from "../services/pdfService.js";
 import { successResponse, errorResponse } from "../utils/responseFormatter.js";
 import { HTTP_STATUS } from "../utils/constants.js";
 
@@ -128,6 +129,36 @@ export const completeMyTrip = async (req, res) => {
     return successResponse(res, HTTP_STATUS.OK, "Trip completed successfully", {
       trip,
     });
+  } catch (error) {
+    return errorResponse(
+      res,
+      error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      error.message
+    );
+  }
+};
+
+// Download my trip as PDF (for driver)
+export const downloadMyTripPDF = async (req, res) => {
+  try {
+    const trip = await tripService.getDriverTripById(
+      req.user.id,
+      req.params.id
+    );
+
+    // Generate PDF
+    const doc = generateTripPDF(trip);
+
+    // Set response headers for PDF download
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=trip-${trip.tripNumber}.pdf`
+    );
+
+    // Pipe PDF to response
+    doc.pipe(res);
+    doc.end();
   } catch (error) {
     return errorResponse(
       res,
