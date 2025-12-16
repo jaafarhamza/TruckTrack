@@ -9,6 +9,7 @@ import tireRoutes from "./routes/tireRoutes.js";
 import fuelRoutes from "./routes/fuelRoutes.js";
 import driverRoutes from "./routes/driverRoutes.js";
 import tripRoutes from "./routes/tripRoutes.js";
+import maintenanceRuleRoutes from "./routes/maintenanceRuleRoutes.js";
 import cors from "cors";
 const app = express();
 
@@ -53,6 +54,7 @@ app.use("/api/tires", tireRoutes);
 app.use("/api/fuel", fuelRoutes);
 app.use("/api/drivers", driverRoutes);
 app.use("/api/trips", tripRoutes);
+app.use("/api/maintenance-rules", maintenanceRuleRoutes);
 
 // Start server function
 const startServer = async () => {
