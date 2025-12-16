@@ -150,6 +150,46 @@ export const getDriverTripById = async (driverId, tripId) => {
   return trip;
 };
 
+// Start trip by driver 
+export const startDriverTrip = async (driverId, tripId, startKm) => {
+  const trip = await Trip.findOne({ _id: tripId, driver: driverId });
+
+  if (!trip) {
+    throw new CustomError(
+      "Trip not found or you don't have access",
+      HTTP_STATUS.NOT_FOUND
+    );
+  }
+
+  await trip.start(startKm);
+
+  return trip.populate([
+    { path: "driver", select: "firstName lastName username email" },
+    { path: "truck", select: "plateNumber brand model mileage" },
+    { path: "trailer", select: "plateNumber type" },
+  ]);
+};
+
+// Complete trip by driver 
+export const completeDriverTrip = async (driverId, tripId, endKm, remarks) => {
+  const trip = await Trip.findOne({ _id: tripId, driver: driverId });
+
+  if (!trip) {
+    throw new CustomError(
+      "Trip not found or you don't have access",
+      HTTP_STATUS.NOT_FOUND
+    );
+  }
+
+  await trip.complete(endKm, remarks);
+
+  return trip.populate([
+    { path: "driver", select: "firstName lastName username email" },
+    { path: "truck", select: "plateNumber brand model mileage" },
+    { path: "trailer", select: "plateNumber type" },
+  ]);
+};
+
 // Get driver's trip stats
 export const getDriverTripStats = async (driverId) => {
   const driverObjectId = new mongoose.Types.ObjectId(driverId);

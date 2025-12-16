@@ -24,6 +24,12 @@ const DriverDashboard = () => {
   const [selectedTrip, setSelectedTrip] = useState(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [stats, setStats] = useState({ total: 0, planned: 0, inProgress: 0, completed: 0, totalDistance: 0 });
+  
+  // Trip status update modals
+  const [startModal, setStartModal] = useState({ isOpen: false, trip: null, startKm: '' });
+  const [completeModal, setCompleteModal] = useState({ isOpen: false, trip: null, endKm: '', remarks: '' });
+  const [actionLoading, setActionLoading] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '', type: '' });
 
   const fetchTrips = useCallback(async () => {
     setLoading(true);
@@ -60,6 +66,63 @@ const DriverDashboard = () => {
     fetchTrips();
     fetchStats();
   }, [fetchTrips, fetchStats]);
+
+  const showToast = (message, type = 'success') => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: '', type: '' }), 3000);
+  };
+
+  const handleStartTrip = async () => {
+    if (!startModal.startKm) {
+      showToast('Please enter start km', 'error');
+      return;
+    }
+    setActionLoading(true);
+    try {
+      const response = await tripService.startMyTrip(startModal.trip._id, parseInt(startModal.startKm));
+      if (response.success) {
+        setTrips(trips.map(t => t._id === startModal.trip._id ? response.data.trip : t));
+        fetchStats();
+        showToast('Trip started successfully!');
+        setStartModal({ isOpen: false, trip: null, startKm: '' });
+        setSelectedTrip(null);
+      }
+    } catch (err) {
+      showToast(err.message || 'Failed to start trip', 'error');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleCompleteTrip = async () => {
+    if (!completeModal.endKm) {
+      showToast('Please enter end km', 'error');
+      return;
+    }
+    if (parseInt(completeModal.endKm) <= completeModal.trip.startKm) {
+      showToast('End km must be greater than start km', 'error');
+      return;
+    }
+    setActionLoading(true);
+    try {
+      const response = await tripService.completeMyTrip(
+        completeModal.trip._id, 
+        parseInt(completeModal.endKm),
+        completeModal.remarks
+      );
+      if (response.success) {
+        setTrips(trips.map(t => t._id === completeModal.trip._id ? response.data.trip : t));
+        fetchStats();
+        showToast('Trip completed successfully!');
+        setCompleteModal({ isOpen: false, trip: null, endKm: '', remarks: '' });
+        setSelectedTrip(null);
+      }
+    } catch (err) {
+      showToast(err.message || 'Failed to complete trip', 'error');
+    } finally {
+      setActionLoading(false);
+    }
+  };
 
   const getInitials = (firstName, lastName) => {
     return `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`.toUpperCase() || 'U';
@@ -483,6 +546,127 @@ const DriverDashboard = () => {
                 </div>
               )}
             </div>
+
+            {/* Action Buttons */}
+            {selectedTrip.status === TRIP_STATUS.PLANNED && (
+              <div className="trip-actions">
+                <button 
+                  className="btn btn-md btn-success"
+                  onClick={() => {
+                    setStartModal({ isOpen: true, trip: selectedTrip, startKm: selectedTrip.truck?.mileage || '' });
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                  Start Trip
+                </button>
+              </div>
+            )}
+
+            {selectedTrip.status === TRIP_STATUS.IN_PROGRESS && (
+              <div className="trip-actions">
+                <button 
+                  className="btn btn-md btn-success"
+                  onClick={() => {
+                    setCompleteModal({ isOpen: true, trip: selectedTrip, endKm: '', remarks: '' });
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                  Complete Trip
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Start Trip Modal */}
+      {startModal.isOpen && (
+        <div className="modal-overlay" onClick={() => !actionLoading && setStartModal({ isOpen: false, trip: null, startKm: '' })}>
+          <div className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
+            <h3>Start Trip</h3>
+            <p>Enter the starting mileage for trip <strong>{startModal.trip?.tripNumber}</strong></p>
+            <div className="form-group">
+              <label htmlFor="startKm">Start Km *</label>
+              <input
+                type="number"
+                id="startKm"
+                value={startModal.startKm}
+                onChange={(e) => setStartModal(prev => ({ ...prev, startKm: e.target.value }))}
+                placeholder="Enter start km"
+                min="0"
+                disabled={actionLoading}
+              />
+            </div>
+            <div className="dialog-actions">
+              <button 
+                className="btn btn-md btn-ghost" 
+                onClick={() => setStartModal({ isOpen: false, trip: null, startKm: '' })}
+                disabled={actionLoading}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-md btn-success" 
+                onClick={handleStartTrip} 
+                disabled={actionLoading}
+              >
+                {actionLoading ? 'Starting...' : 'Start Trip'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Complete Trip Modal */}
+      {completeModal.isOpen && (
+        <div className="modal-overlay" onClick={() => !actionLoading && setCompleteModal({ isOpen: false, trip: null, endKm: '', remarks: '' })}>
+          <div className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
+            <h3>Complete Trip</h3>
+            <p>Enter the ending mileage for trip <strong>{completeModal.trip?.tripNumber}</strong></p>
+            <div className="form-group">
+              <label htmlFor="endKm">End Km * (Start was {completeModal.trip?.startKm?.toLocaleString()} km)</label>
+              <input
+                type="number"
+                id="endKm"
+                value={completeModal.endKm}
+                onChange={(e) => setCompleteModal(prev => ({ ...prev, endKm: e.target.value }))}
+                placeholder="Enter end km"
+                min={completeModal.trip?.startKm || 0}
+                disabled={actionLoading}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="tripRemarks">Remarks (Optional)</label>
+              <textarea
+                id="tripRemarks"
+                value={completeModal.remarks}
+                onChange={(e) => setCompleteModal(prev => ({ ...prev, remarks: e.target.value }))}
+                placeholder="Any notes about the trip..."
+                rows="3"
+                disabled={actionLoading}
+              />
+            </div>
+            <div className="dialog-actions">
+              <button 
+                className="btn btn-md btn-ghost" 
+                onClick={() => setCompleteModal({ isOpen: false, trip: null, endKm: '', remarks: '' })}
+                disabled={actionLoading}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-md btn-success" 
+                onClick={handleCompleteTrip} 
+                disabled={actionLoading}
+              >
+                {actionLoading ? 'Completing...' : 'Complete Trip'}
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -493,6 +677,24 @@ const DriverDashboard = () => {
         onClose={() => setIsProfileModalOpen(false)}
         initialUser={currentUser}
       />
+
+      {/* Toast Notification */}
+      {toast.show && (
+        <div className={`toast toast-${toast.type}`}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            {toast.type === 'success' ? (
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4L12 14.01l-3-3"/>
+            ) : (
+              <>
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="15" y1="9" x2="9" y2="15"/>
+                <line x1="9" y1="9" x2="15" y2="15"/>
+              </>
+            )}
+          </svg>
+          {toast.message}
+        </div>
+      )}
     </div>
   );
 };

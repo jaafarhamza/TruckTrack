@@ -395,6 +395,59 @@
   font-size: 0.875rem;
 }
 
+/* Trip Actions */
+.trip-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+}
+
+.trip-actions .btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Form Group in Modals */
+.confirm-dialog .form-group {
+  margin-bottom: var(--space-4);
+  text-align: left;
+}
+
+.confirm-dialog .form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.confirm-dialog .form-group input,
+.confirm-dialog .form-group textarea {
+  width: 100%;
+  padding: var(--space-3);
+  background: var(--bg-main);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+}
+
+.confirm-dialog .form-group input:focus,
+.confirm-dialog .form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-300);
+  box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.1);
+}
+
+.confirm-dialog .form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .trip-main {

@@ -94,6 +94,49 @@ export const getMyTripStats = async (req, res) => {
   }
 };
 
+// Start my trip (for driver)
+export const startMyTrip = async (req, res) => {
+  try {
+    const { startKm } = req.body;
+    const trip = await tripService.startDriverTrip(
+      req.user.id,
+      req.params.id,
+      startKm
+    );
+    return successResponse(res, HTTP_STATUS.OK, "Trip started successfully", {
+      trip,
+    });
+  } catch (error) {
+    return errorResponse(
+      res,
+      error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      error.message
+    );
+  }
+};
+
+// Complete my trip (for driver)
+export const completeMyTrip = async (req, res) => {
+  try {
+    const { endKm, remarks } = req.body;
+    const trip = await tripService.completeDriverTrip(
+      req.user.id,
+      req.params.id,
+      endKm,
+      remarks
+    );
+    return successResponse(res, HTTP_STATUS.OK, "Trip completed successfully", {
+      trip,
+    });
+  } catch (error) {
+    return errorResponse(
+      res,
+      error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      error.message
+    );
+  }
+};
+
 // Get trips by driver ID (for admin)
 export const getDriverTrips = async (req, res) => {
   try {

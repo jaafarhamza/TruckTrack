@@ -23,6 +23,8 @@ router.use(protect);
 router.get("/my-trips/stats", tripController.getMyTripStats);
 router.get("/my-trips/:id", tripController.getMyTripById);
 router.get("/my-trips", tripController.getMyTrips);
+router.patch("/my-trips/:id/start", tripController.startMyTrip);
+router.patch("/my-trips/:id/complete", tripController.completeMyTrip);
 
 // Admin routes
 router.get("/driver/:driverId", isAdmin, tripController.getDriverTrips);

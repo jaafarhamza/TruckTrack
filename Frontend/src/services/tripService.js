@@ -52,6 +52,21 @@ export const getMyTripStats = async () => {
   return response.data;
 };
 
+// Start my trip (for driver)
+export const startMyTrip = async (id, startKm) => {
+  const response = await api.patch(`/trips/my-trips/${id}/start`, { startKm });
+  return response.data;
+};
+
+// Complete my trip (for driver)
+export const completeMyTrip = async (id, endKm, remarks) => {
+  const response = await api.patch(`/trips/my-trips/${id}/complete`, {
+    endKm,
+    remarks,
+  });
+  return response.data;
+};
+
 // Get driver trips
 export const getDriverTrips = async (driverId, params = {}) => {
   const queryParams = new URLSearchParams();
