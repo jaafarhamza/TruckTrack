@@ -1,0 +1,1722 @@
+{
+  "info": {
+    "_postman_id": "trucktrack-api-collection",
+    "name": "TruckTrack API",
+    "description": "Complete API documentation for TruckTrack Fleet Management System.\n\n## Authentication\nMost endpoints require a Bearer token. Get your token from the Login endpoint and add it to the Authorization header.\n\n## Roles\n- **ADMIN**: Full access to all endpoints\n- **DRIVER**: Limited access to own trips and profile\n\n## Base URL\n`http://localhost:5000/api`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "description": "Authentication endpoints for login, registration, and profile",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"phone\": \"+1234567890\",\n  \"role\": \"DRIVER\",\n  \"license\": \"DL-123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Register a new user. Role can be ADMIN or DRIVER. License is required for drivers."
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login with email and password. Returns JWT token that is automatically saved to collection variables."
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/profil",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "profil"]
+            },
+            "description": "Get current user profile. Requires authentication."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "description": "Admin-only user management endpoints",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users"]
+            },
+            "description": "Get all users. Admin only."
+          }
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/users/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "user_id_here"
+                }
+              ]
+            },
+            "description": "Get user by ID. Admin only."
+          }
+        },
+        {
+          "name": "Update User Role",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"ADMIN\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/users/:id/role",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users", ":id", "role"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "user_id_here"
+                }
+              ]
+            },
+            "description": "Update user role. Role must be ADMIN or DRIVER. Admin only."
+          }
+        },
+        {
+          "name": "Activate User",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/users/:id/activate",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users", ":id", "activate"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "user_id_here"
+                }
+              ]
+            },
+            "description": "Activate a user account. Admin only."
+          }
+        },
+        {
+          "name": "Deactivate User",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/users/:id/deactivate",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users", ":id", "deactivate"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "user_id_here"
+                }
+              ]
+            },
+            "description": "Deactivate a user account. Admin only."
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/users/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "user_id_here"
+                }
+              ]
+            },
+            "description": "Delete a user. Admin only."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trucks",
+      "description": "Truck management endpoints",
+      "item": [
+        {
+          "name": "Get All Trucks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trucks?page=1&limit=10&status=AVAILABLE&sortBy=createdAt&sortOrder=desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["trucks"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                {
+                  "key": "status",
+                  "value": "AVAILABLE",
+                  "description": "AVAILABLE, ON_TRIP, UNDER_MAINTENANCE, OUT_OF_SERVICE"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt",
+                  "description": "plateNumber, brand, model, year, mileage, status, createdAt"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc",
+                  "description": "asc, desc"
+                }
+              ]
+            },
+            "description": "Get all trucks with pagination and filtering."
+          }
+        },
+        {
+          "name": "Get Available Trucks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trucks/available",
+              "host": ["{{baseUrl}}"],
+              "path": ["trucks", "available"]
+            },
+            "description": "Get all available trucks (status = AVAILABLE)."
+          }
+        },
+        {
+          "name": "Get Truck By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trucks/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["trucks", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "truck_id_here"
+                }
+              ]
+            },
+            "description": "Get a truck by ID."
+          }
+        },
+        {
+          "name": "Create Truck",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plateNumber\": \"ABC-1234\",\n  \"brand\": \"Volvo\",\n  \"model\": \"FH16\",\n  \"year\": 2022,\n  \"mileage\": 50000,\n  \"status\": \"AVAILABLE\",\n  \"loadCapacity\": 25000,\n  \"averageConsumption\": 32.5,\n  \"purchaseDate\": \"2022-01-15\",\n  \"purchasePrice\": 150000,\n  \"color\": \"White\",\n  \"serialNumber\": \"VLV123456789\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trucks",
+              "host": ["{{baseUrl}}"],
+              "path": ["trucks"]
+            },
+            "description": "Create a new truck. Admin only."
+          }
+        },
+        {
+          "name": "Update Truck",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"brand\": \"Volvo\",\n  \"model\": \"FH16 Updated\",\n  \"status\": \"UNDER_MAINTENANCE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trucks/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["trucks", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "truck_id_here"
+                }
+              ]
+            },
+            "description": "Update a truck. Admin only."
+          }
+        },
+        {
+          "name": "Update Truck Mileage",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mileage\": 55000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trucks/:id/mileage",
+              "host": ["{{baseUrl}}"],
+              "path": ["trucks", ":id", "mileage"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "truck_id_here"
+                }
+              ]
+            },
+            "description": "Update truck mileage. Mileage can only increase. Admin only."
+          }
+        },
+        {
+          "name": "Delete Truck",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trucks/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["trucks", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "truck_id_here"
+                }
+              ]
+            },
+            "description": "Delete a truck. Admin only."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trailers",
+      "description": "Trailer management endpoints",
+      "item": [
+        {
+          "name": "Get All Trailers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trailers?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["trailers"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Get all trailers with pagination."
+          }
+        },
+        {
+          "name": "Get Available Trailers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trailers/available",
+              "host": ["{{baseUrl}}"],
+              "path": ["trailers", "available"]
+            },
+            "description": "Get all available trailers."
+          }
+        },
+        {
+          "name": "Get Trailer By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trailers/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["trailers", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trailer_id_here"
+                }
+              ]
+            },
+            "description": "Get a trailer by ID."
+          }
+        },
+        {
+          "name": "Create Trailer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plateNumber\": \"TRL-5678\",\n  \"type\": \"FLATBED\",\n  \"brand\": \"Krone\",\n  \"model\": \"Mega Liner\",\n  \"year\": 2021,\n  \"status\": \"AVAILABLE\",\n  \"loadCapacity\": 28000,\n  \"length\": 13.6,\n  \"width\": 2.45,\n  \"height\": 2.7,\n  \"axles\": 3,\n  \"tareWeight\": 7500,\n  \"purchaseDate\": \"2021-06-20\",\n  \"purchasePrice\": 45000,\n  \"color\": \"Gray\",\n  \"serialNumber\": \"KRN987654321\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trailers",
+              "host": ["{{baseUrl}}"],
+              "path": ["trailers"]
+            },
+            "description": "Create a new trailer. Types: FLATBED, REFRIGERATED, TANKER, CONTAINER, LOWBOY, DRY_VAN. Admin only."
+          }
+        },
+        {
+          "name": "Update Trailer",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"UNDER_MAINTENANCE\",\n  \"loadCapacity\": 30000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trailers/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["trailers", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trailer_id_here"
+                }
+              ]
+            },
+            "description": "Update a trailer. Admin only."
+          }
+        },
+        {
+          "name": "Delete Trailer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trailers/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["trailers", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trailer_id_here"
+                }
+              ]
+            },
+            "description": "Delete a trailer. Admin only."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tires",
+      "description": "Tire tracking and management endpoints",
+      "item": [
+        {
+          "name": "Get All Tires",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tires?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["tires"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Get all tires with pagination."
+          }
+        },
+        {
+          "name": "Get Tire Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tires/statistics",
+              "host": ["{{baseUrl}}"],
+              "path": ["tires", "statistics"]
+            },
+            "description": "Get tire statistics overview."
+          }
+        },
+        {
+          "name": "Get Tires Needing Replacement",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tires/alerts/replacement",
+              "host": ["{{baseUrl}}"],
+              "path": ["tires", "alerts", "replacement"]
+            },
+            "description": "Get tires that need replacement (status = TO_REPLACE)."
+          }
+        },
+        {
+          "name": "Get Tires By Vehicle",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tires/vehicle/:vehicleId?vehicleType=Truck",
+              "host": ["{{baseUrl}}"],
+              "path": ["tires", "vehicle", ":vehicleId"],
+              "query": [
+                {
+                  "key": "vehicleType",
+                  "value": "Truck",
+                  "description": "Truck or Trailer"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "vehicleId",
+                  "value": "vehicle_id_here"
+                }
+              ]
+            },
+            "description": "Get all tires for a specific vehicle."
+          }
+        },
+        {
+          "name": "Get Tire By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tires/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["tires", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "tire_id_here"
+                }
+              ]
+            },
+            "description": "Get a tire by ID."
+          }
+        },
+        {
+          "name": "Create Tire",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reference\": \"TIRE-001\",\n  \"vehicle\": \"truck_id_here\",\n  \"vehicleType\": \"Truck\",\n  \"position\": \"FRONT_LEFT\",\n  \"brand\": \"Michelin\",\n  \"model\": \"X Line Energy\",\n  \"dimension\": \"315/80R22.5\",\n  \"installationDate\": \"2024-01-15\",\n  \"installationKm\": 50000,\n  \"currentKm\": 50000,\n  \"pressure\": 120,\n  \"purchasePrice\": 450\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tires",
+              "host": ["{{baseUrl}}"],
+              "path": ["tires"]
+            },
+            "description": "Create a new tire. Positions: FRONT_LEFT, FRONT_RIGHT, REAR_LEFT, REAR_RIGHT, SPARE. Admin only."
+          }
+        },
+        {
+          "name": "Update Tire",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pressure\": 125,\n  \"position\": \"REAR_LEFT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tires/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["tires", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "tire_id_here"
+                }
+              ]
+            },
+            "description": "Update a tire. Admin only."
+          }
+        },
+        {
+          "name": "Update Tire Mileage",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentKm\": 75000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tires/:id/mileage",
+              "host": ["{{baseUrl}}"],
+              "path": ["tires", ":id", "mileage"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "tire_id_here"
+                }
+              ]
+            },
+            "description": "Update tire mileage. Status is auto-calculated based on km traveled. Admin only."
+          }
+        },
+        {
+          "name": "Delete Tire",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tires/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["tires", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "tire_id_here"
+                }
+              ]
+            },
+            "description": "Delete a tire. Admin only."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trips",
+      "description": "Trip management endpoints (Admin)",
+      "item": [
+        {
+          "name": "Get All Trips",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trips?page=1&limit=10&status=PLANNED",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                {
+                  "key": "status",
+                  "value": "PLANNED",
+                  "description": "PLANNED, IN_PROGRESS, COMPLETED, CANCELLED"
+                },
+                { "key": "startDate", "value": "2024-01-01", "disabled": true },
+                { "key": "endDate", "value": "2024-12-31", "disabled": true }
+              ]
+            },
+            "description": "Get all trips with pagination and filtering. Admin only."
+          }
+        },
+        {
+          "name": "Get Trip Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trips/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", "stats"]
+            },
+            "description": "Get trip statistics. Admin only."
+          }
+        },
+        {
+          "name": "Get Driver Trips",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trips/driver/:driverId",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", "driver", ":driverId"],
+              "variable": [
+                {
+                  "key": "driverId",
+                  "value": "driver_id_here"
+                }
+              ]
+            },
+            "description": "Get trips for a specific driver. Admin only."
+          }
+        },
+        {
+          "name": "Get Trip By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trips/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Get a trip by ID. Admin only."
+          }
+        },
+        {
+          "name": "Create Trip",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"driver\": \"driver_id_here\",\n  \"truck\": \"truck_id_here\",\n  \"trailer\": \"trailer_id_here\",\n  \"origin\": {\n    \"city\": \"Paris\",\n    \"country\": \"France\",\n    \"street\": \"123 Rue de la Paix\",\n    \"postalCode\": \"75001\"\n  },\n  \"destination\": {\n    \"city\": \"Berlin\",\n    \"country\": \"Germany\",\n    \"street\": \"456 Unter den Linden\",\n    \"postalCode\": \"10117\"\n  },\n  \"departureDate\": \"2024-12-20T08:00:00Z\",\n  \"arrivalDate\": \"2024-12-21T18:00:00Z\",\n  \"cargo\": \"Electronics\",\n  \"weight\": 15000,\n  \"remarks\": \"Handle with care\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trips",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips"]
+            },
+            "description": "Create a new trip. Admin only."
+          }
+        },
+        {
+          "name": "Update Trip",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cargo\": \"Updated cargo description\",\n  \"remarks\": \"Updated remarks\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trips/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Update a trip. Admin only."
+          }
+        },
+        {
+          "name": "Start Trip",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startKm\": 50000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trips/:id/start",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", ":id", "start"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Start a trip. Changes status from PLANNED to IN_PROGRESS. Admin only."
+          }
+        },
+        {
+          "name": "Complete Trip",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"endKm\": 51200,\n  \"remarks\": \"Trip completed successfully\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trips/:id/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", ":id", "complete"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Complete a trip. Changes status from IN_PROGRESS to COMPLETED. Admin only."
+          }
+        },
+        {
+          "name": "Cancel Trip",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Weather conditions\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trips/:id/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", ":id", "cancel"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Cancel a trip. Can cancel from PLANNED or IN_PROGRESS. Admin only."
+          }
+        },
+        {
+          "name": "Update Trip Fuel",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"volume\": 150,\n  \"cost\": 250\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trips/:id/fuel",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", ":id", "fuel"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Update trip fuel consumption. Admin only."
+          }
+        },
+        {
+          "name": "Delete Trip",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trips/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Delete a trip. Admin only."
+          }
+        }
+      ]
+    },
+    {
+      "name": "My Trips (Driver)",
+      "description": "Driver's own trip endpoints",
+      "item": [
+        {
+          "name": "Get My Trips",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trips/my-trips",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", "my-trips"]
+            },
+            "description": "Get current driver's trips."
+          }
+        },
+        {
+          "name": "Get My Trip Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trips/my-trips/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", "my-trips", "stats"]
+            },
+            "description": "Get current driver's trip statistics."
+          }
+        },
+        {
+          "name": "Get My Trip By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trips/my-trips/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", "my-trips", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Get a specific trip for current driver."
+          }
+        },
+        {
+          "name": "Download My Trip PDF",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trips/my-trips/:id/pdf",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", "my-trips", ":id", "pdf"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Download trip report as PDF."
+          }
+        },
+        {
+          "name": "Start My Trip",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startKm\": 50000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trips/my-trips/:id/start",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", "my-trips", ":id", "start"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Start driver's own trip."
+          }
+        },
+        {
+          "name": "Complete My Trip",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"endKm\": 51200,\n  \"remarks\": \"Delivered on time\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/trips/my-trips/:id/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["trips", "my-trips", ":id", "complete"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "trip_id_here"
+                }
+              ]
+            },
+            "description": "Complete driver's own trip."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fuel",
+      "description": "Fuel record management endpoints",
+      "item": [
+        {
+          "name": "Get All Fuel Records",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fuel?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["fuel"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Get all fuel records with pagination."
+          }
+        },
+        {
+          "name": "Get Fuel Record By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fuel/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["fuel", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "fuel_id_here"
+                }
+              ]
+            },
+            "description": "Get a fuel record by ID."
+          }
+        },
+        {
+          "name": "Get Fuel By Vehicle",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fuel/vehicle/:vehicleId?vehicleType=Truck",
+              "host": ["{{baseUrl}}"],
+              "path": ["fuel", "vehicle", ":vehicleId"],
+              "query": [{ "key": "vehicleType", "value": "Truck" }],
+              "variable": [
+                {
+                  "key": "vehicleId",
+                  "value": "vehicle_id_here"
+                }
+              ]
+            },
+            "description": "Get fuel records for a specific vehicle."
+          }
+        },
+        {
+          "name": "Get Fuel Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fuel/statistics/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["fuel", "statistics", "all"]
+            },
+            "description": "Get fuel statistics overview."
+          }
+        },
+        {
+          "name": "Get Efficiency Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fuel/efficiency/:vehicleId?vehicleType=Truck",
+              "host": ["{{baseUrl}}"],
+              "path": ["fuel", "efficiency", ":vehicleId"],
+              "query": [{ "key": "vehicleType", "value": "Truck" }],
+              "variable": [
+                {
+                  "key": "vehicleId",
+                  "value": "vehicle_id_here"
+                }
+              ]
+            },
+            "description": "Get fuel efficiency report for a vehicle."
+          }
+        },
+        {
+          "name": "Get Cost Analysis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fuel/cost-analysis/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["fuel", "cost-analysis", "all"]
+            },
+            "description": "Get fuel cost analysis."
+          }
+        },
+        {
+          "name": "Create Fuel Record",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vehicle\": \"truck_id_here\",\n  \"vehicleModel\": \"Truck\",\n  \"trip\": \"trip_id_here\",\n  \"date\": \"2024-12-15T14:30:00Z\",\n  \"volume\": 150,\n  \"unitCost\": 1.65,\n  \"totalCost\": 247.5,\n  \"currentKm\": 52000,\n  \"station\": \"Shell Station\",\n  \"city\": \"Berlin\",\n  \"invoice\": \"INV-12345\",\n  \"fuelType\": \"DIESEL\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/fuel",
+              "host": ["{{baseUrl}}"],
+              "path": ["fuel"]
+            },
+            "description": "Create a new fuel record. Fuel types: DIESEL, GASOLINE, ELECTRIC, HYBRID. Admin only."
+          }
+        },
+        {
+          "name": "Update Fuel Record",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"volume\": 160,\n  \"totalCost\": 264\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/fuel/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["fuel", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "fuel_id_here"
+                }
+              ]
+            },
+            "description": "Update a fuel record. Admin only."
+          }
+        },
+        {
+          "name": "Delete Fuel Record",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fuel/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["fuel", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "fuel_id_here"
+                }
+              ]
+            },
+            "description": "Delete a fuel record. Admin only."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Drivers",
+      "description": "Driver management endpoints (Admin only)",
+      "item": [
+        {
+          "name": "Get All Drivers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/drivers?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["drivers"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Get all drivers with pagination. Admin only."
+          }
+        },
+        {
+          "name": "Get Active Drivers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/drivers/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["drivers", "active"]
+            },
+            "description": "Get all active drivers. Admin only."
+          }
+        },
+        {
+          "name": "Get Driver Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/drivers/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["drivers", "stats"]
+            },
+            "description": "Get driver statistics. Admin only."
+          }
+        },
+        {
+          "name": "Get Driver By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/drivers/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["drivers", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "driver_id_here"
+                }
+              ]
+            },
+            "description": "Get a driver by ID. Admin only."
+          }
+        },
+        {
+          "name": "Create Driver",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"driver_new\",\n  \"email\": \"driver@example.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"New\",\n  \"lastName\": \"Driver\",\n  \"phone\": \"+1234567890\",\n  \"license\": \"DL-NEW-123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/drivers",
+              "host": ["{{baseUrl}}"],
+              "path": ["drivers"]
+            },
+            "description": "Create a new driver. Admin only."
+          }
+        },
+        {
+          "name": "Update Driver",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Updated\",\n  \"phone\": \"+9876543210\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/drivers/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["drivers", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "driver_id_here"
+                }
+              ]
+            },
+            "description": "Update a driver. Admin only."
+          }
+        },
+        {
+          "name": "Toggle Driver Status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/drivers/:id/toggle-status",
+              "host": ["{{baseUrl}}"],
+              "path": ["drivers", ":id", "toggle-status"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "driver_id_here"
+                }
+              ]
+            },
+            "description": "Toggle driver active/inactive status. Admin only."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Maintenance Rules",
+      "description": "Maintenance rule configuration (Admin only)",
+      "item": [
+        {
+          "name": "Get All Rules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/maintenance-rules?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["maintenance-rules"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            },
+            "description": "Get all maintenance rules. Admin only."
+          }
+        },
+        {
+          "name": "Get Rule Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/maintenance-rules/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["maintenance-rules", "stats"]
+            },
+            "description": "Get maintenance rule statistics. Admin only."
+          }
+        },
+        {
+          "name": "Get Rule By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/maintenance-rules/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["maintenance-rules", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "rule_id_here"
+                }
+              ]
+            },
+            "description": "Get a maintenance rule by ID. Admin only."
+          }
+        },
+        {
+          "name": "Create Rule",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"OIL_CHANGE\",\n  \"description\": \"Regular oil change every 15,000 km or 6 months\",\n  \"kmInterval\": 15000,\n  \"monthInterval\": 6,\n  \"estimatedCost\": 150,\n  \"active\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/maintenance-rules",
+              "host": ["{{baseUrl}}"],
+              "path": ["maintenance-rules"]
+            },
+            "description": "Create a maintenance rule. Types: TIRE, OIL_CHANGE, CHECKUP, BRAKES, FILTERS, BELT. Admin only."
+          }
+        },
+        {
+          "name": "Update Rule",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kmInterval\": 20000,\n  \"estimatedCost\": 175\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/maintenance-rules/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["maintenance-rules", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "rule_id_here"
+                }
+              ]
+            },
+            "description": "Update a maintenance rule. Admin only."
+          }
+        },
+        {
+          "name": "Toggle Rule Active",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/maintenance-rules/:id/toggle",
+              "host": ["{{baseUrl}}"],
+              "path": ["maintenance-rules", ":id", "toggle"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "rule_id_here"
+                }
+              ]
+            },
+            "description": "Toggle rule active/inactive. Admin only."
+          }
+        },
+        {
+          "name": "Delete Rule",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/maintenance-rules/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["maintenance-rules", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "rule_id_here"
+                }
+              ]
+            },
+            "description": "Delete a maintenance rule. Admin only."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Maintenance Alerts",
+      "description": "Maintenance alert endpoints (Admin only)",
+      "item": [
+        {
+          "name": "Get All Alerts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/maintenance-alerts",
+              "host": ["{{baseUrl}}"],
+              "path": ["maintenance-alerts"]
+            },
+            "description": "Get all maintenance alerts. Admin only."
+          }
+        },
+        {
+          "name": "Get Upcoming Maintenance",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/maintenance-alerts/upcoming",
+              "host": ["{{baseUrl}}"],
+              "path": ["maintenance-alerts", "upcoming"]
+            },
+            "description": "Get upcoming maintenance alerts. Admin only."
+          }
+        },
+        {
+          "name": "Get Vehicle Maintenance Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/maintenance-alerts/vehicle/:vehicleType/:vehicleId",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "maintenance-alerts",
+                "vehicle",
+                ":vehicleType",
+                ":vehicleId"
+              ],
+              "variable": [
+                {
+                  "key": "vehicleType",
+                  "value": "Truck"
+                },
+                {
+                  "key": "vehicleId",
+                  "value": "vehicle_id_here"
+                }
+              ]
+            },
+            "description": "Get maintenance status for a specific vehicle. Admin only."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Statistics",
+      "description": "Dashboard and analytics endpoints (Admin only)",
+      "item": [
+        {
+          "name": "Get Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["statistics", "dashboard"]
+            },
+            "description": "Get dashboard summary with key metrics. Admin only."
+          }
+        },
+        {
+          "name": "Get Fleet Overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/fleet",
+              "host": ["{{baseUrl}}"],
+              "path": ["statistics", "fleet"]
+            },
+            "description": "Get fleet overview statistics. Admin only."
+          }
+        },
+        {
+          "name": "Get Trip Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/trips?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["statistics", "trips"],
+              "query": [
+                { "key": "startDate", "value": "2024-01-01", "disabled": true },
+                { "key": "endDate", "value": "2024-12-31", "disabled": true }
+              ]
+            },
+            "description": "Get trip statistics with optional date range. Admin only."
+          }
+        },
+        {
+          "name": "Get Fuel Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/fuel?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["statistics", "fuel"],
+              "query": [
+                { "key": "startDate", "value": "2024-01-01", "disabled": true },
+                { "key": "endDate", "value": "2024-12-31", "disabled": true }
+              ]
+            },
+            "description": "Get fuel consumption statistics. Admin only."
+          }
+        },
+        {
+          "name": "Get Maintenance Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/maintenance",
+              "host": ["{{baseUrl}}"],
+              "path": ["statistics", "maintenance"]
+            },
+            "description": "Get maintenance statistics. Admin only."
+          }
+        },
+        {
+          "name": "Get Driver Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/drivers",
+              "host": ["{{baseUrl}}"],
+              "path": ["statistics", "drivers"]
+            },
+            "description": "Get driver performance statistics. Admin only."
+          }
+        },
+        {
+          "name": "Get Financial Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/financial",
+              "host": ["{{baseUrl}}"],
+              "path": ["statistics", "financial"]
+            },
+            "description": "Get financial summary. Admin only."
+          }
+        }
+      ]
+    }
+  ]
+}
