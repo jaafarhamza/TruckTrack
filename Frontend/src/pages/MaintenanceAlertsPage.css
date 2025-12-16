@@ -1,0 +1,355 @@
+@import "./AdminPanel.css";
+
+/* Alerts Section */
+.alerts-section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+}
+
+/* Stats */
+.stat-item.stat-danger .stat-value {
+  color: #ef4444;
+}
+
+.stat-item.stat-warning .stat-value {
+  color: #f59e0b;
+}
+
+.stat-item.stat-cost {
+  border-left: 1px solid var(--border-subtle);
+  padding-left: var(--space-4);
+}
+
+.stat-item.stat-cost .stat-value {
+  color: var(--primary-300);
+}
+
+/* Priority Sections */
+.alerts-priority-section {
+  margin-bottom: var(--space-6);
+}
+
+.alerts-priority-section:last-child {
+  margin-bottom: 0;
+}
+
+.priority-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.priority-header.priority-high {
+  color: #ef4444;
+}
+
+.priority-header.priority-medium {
+  color: #f59e0b;
+}
+
+.priority-header.priority-low {
+  color: var(--text-secondary);
+}
+
+/* Alerts Grid */
+.alerts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+/* Alert Card */
+.alert-card {
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.alert-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.alert-card.status-overdue {
+  border-left: 4px solid #ef4444;
+}
+
+.alert-card.status-due-soon {
+  border-left: 4px solid #f59e0b;
+}
+
+.alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-3);
+}
+
+.alert-vehicle {
+  display: flex;
+  flex-direction: column;
+}
+
+.plate-number {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  font-family: "Fira Code", monospace;
+}
+
+.vehicle-type {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.alert-type {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.alert-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.detail-item.overdue {
+  color: #ef4444;
+}
+
+.detail-item.cost {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--primary-300);
+}
+
+/* Status Badges */
+.status-badge.status-overdue {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.status-badge.status-due-soon {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.status-badge.status-ok {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.status-badge.large {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.9rem;
+}
+
+/* Alert Details Modal */
+.alert-details-modal {
+  max-width: 550px;
+  padding: var(--space-6);
+}
+
+.alert-modal-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: var(--space-4);
+}
+
+.alert-status-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.alert-status-icon.status-overdue {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.alert-status-icon.status-due-soon {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.alert-modal-header h2 {
+  margin: 0;
+  font-family: "Fira Code", monospace;
+  font-size: 1.5rem;
+}
+
+.alert-modal-header p {
+  margin: var(--space-1) 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.alert-modal-header .status-badge {
+  margin-left: auto;
+}
+
+.alert-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.info-section h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 var(--space-3);
+}
+
+.maintenance-type-display {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-300);
+  margin-bottom: var(--space-2);
+}
+
+.maintenance-description {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.info-item {
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.info-item.highlight-danger {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.info-item.highlight-danger .info-value {
+  color: #ef4444;
+}
+
+.info-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.info-value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cost-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-300);
+}
+
+/* Empty, Loading, Error States */
+.alerts-loading,
+.alerts-error,
+.alerts-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-10);
+  gap: var(--space-4);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.alerts-empty svg {
+  color: var(--success);
+  opacity: 0.7;
+}
+
+.alerts-empty h3 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.alerts-empty p {
+  margin: 0;
+  max-width: 400px;
+}
+
+.alerts-error svg {
+  color: var(--danger);
+  opacity: 0.7;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-subtle);
+  border-top-color: var(--primary-300);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .alerts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .alert-modal-header {
+    flex-wrap: wrap;
+  }
+}

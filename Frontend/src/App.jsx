@@ -16,6 +16,7 @@ import DriversPage from './pages/DriversPage';
 import TripsPage from './pages/TripsPage';
 import DriverDashboard from './pages/DriverDashboard';
 import MaintenanceRulesPage from './pages/MaintenanceRulesPage';
+import MaintenanceAlertsPage from './pages/MaintenanceAlertsPage';
 import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
@@ -113,6 +114,15 @@ function App() {
           element={
             <RoleBasedRoute allowedRoles={['ADMIN']}>
               <MaintenanceRulesPage />
+            </RoleBasedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/maintenance-alerts"
+          element={
+            <RoleBasedRoute allowedRoles={['ADMIN']}>
+              <MaintenanceAlertsPage />
             </RoleBasedRoute>
           }
         />
