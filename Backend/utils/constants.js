@@ -72,3 +72,13 @@ export const TRIP_STATUS = {
   COMPLETED: "COMPLETED",
   CANCELLED: "CANCELLED",
 };
+
+//Maintenance Type
+export const MAINTENANCE_TYPE = {
+  TIRE: "TIRE",
+  OIL_CHANGE: "OIL_CHANGE",
+  CHECKUP: "CHECKUP",
+  BRAKES: "BRAKES",
+  FILTERS: "FILTERS",
+  BELT: "BELT",
+};
