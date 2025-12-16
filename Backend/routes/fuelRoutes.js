@@ -4,7 +4,6 @@ import * as fuelValidation from "../middlewares/fuelValidation.js";
 import { protect } from "../middlewares/auth.js";
 import { isAdmin } from "../middlewares/authorization.js";
 import { validate } from "../middlewares/validate.js";
-import { USER_ROLES } from "../utils/constants.js";
 
 const router = express.Router();
 

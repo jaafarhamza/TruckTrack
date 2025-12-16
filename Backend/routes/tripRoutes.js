@@ -1,5 +1,7 @@
 import express from "express";
-import { protect, isAdmin } from "../middlewares/auth.js";
+import { protect } from "../middlewares/auth.js";
+import { isAdmin } from "../middlewares/authorization.js";
+import { validate } from "../middlewares/validate.js";
 import * as tripController from "../controllers/tripController.js";
 import {
   getTripsValidation,
@@ -21,30 +23,63 @@ router.use(protect);
 router.get("/my-trips", tripController.getMyTrips);
 
 // Admin routes
-router.get("/", isAdmin, getTripsValidation, tripController.getAllTrips);
 router.get("/stats", isAdmin, tripController.getTripStats);
-router.get("/:id", isAdmin, tripIdValidation, tripController.getTripById);
-router.post("/", isAdmin, createTripValidation, tripController.createTrip);
-router.put("/:id", isAdmin, updateTripValidation, tripController.updateTrip);
-router.delete("/:id", isAdmin, tripIdValidation, tripController.deleteTrip);
+router.get(
+  "/",
+  isAdmin,
+  getTripsValidation,
+  validate,
+  tripController.getAllTrips
+);
+router.get(
+  "/:id",
+  isAdmin,
+  tripIdValidation,
+  validate,
+  tripController.getTripById
+);
+router.post(
+  "/",
+  isAdmin,
+  createTripValidation,
+  validate,
+  tripController.createTrip
+);
+router.put(
+  "/:id",
+  isAdmin,
+  updateTripValidation,
+  validate,
+  tripController.updateTrip
+);
+router.delete(
+  "/:id",
+  isAdmin,
+  tripIdValidation,
+  validate,
+  tripController.deleteTrip
+);
 
 // Status transition routes
 router.patch(
   "/:id/start",
   isAdmin,
   startTripValidation,
+  validate,
   tripController.startTrip
 );
 router.patch(
   "/:id/complete",
   isAdmin,
   completeTripValidation,
+  validate,
   tripController.completeTrip
 );
 router.patch(
   "/:id/cancel",
   isAdmin,
   cancelTripValidation,
+  validate,
   tripController.cancelTrip
 );
 
@@ -53,6 +88,7 @@ router.patch(
   "/:id/fuel",
   isAdmin,
   updateFuelValidation,
+  validate,
   tripController.updateTripFuel
 );
 

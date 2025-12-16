@@ -122,7 +122,6 @@ tripSchema.index({ status: 1 });
 tripSchema.index({ driver: 1 });
 tripSchema.index({ truck: 1 });
 tripSchema.index({ departureDate: 1 });
-tripSchema.index({ tripNumber: 1 });
 
 // distanceTraveled
 tripSchema.virtual("distanceTraveled").get(function () {

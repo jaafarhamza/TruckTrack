@@ -1,0 +1,287 @@
+@import "./AdminPanel.css";
+
+/* Trip-specific styles */
+
+.trips-table th:first-child,
+.trips-table td:first-child {
+  min-width: 140px;
+}
+
+.trip-number {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trip-id {
+  font-weight: 600;
+  color: var(--primary-300);
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.trip-cargo {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+/* Route Cell */
+.route-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+}
+
+.route-cell svg {
+  color: var(--primary-300);
+  flex-shrink: 0;
+}
+
+.route-cell .origin {
+  color: var(--text-primary);
+}
+
+.route-cell .destination {
+  color: var(--text-secondary);
+}
+
+/* Driver Cell */
+.driver-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.driver-avatar.small {
+  width: 28px;
+  height: 28px;
+  font-size: 0.7rem;
+}
+
+/* Vehicle Cell */
+.vehicle-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.truck-plate {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.trailer-plate {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Schedule Cell */
+.schedule-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.8rem;
+}
+
+.schedule-cell .departure {
+  color: var(--text-primary);
+}
+
+.schedule-cell .arrival {
+  color: var(--text-muted);
+}
+
+/* Status Badges */
+.status-badge.status-planned {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.status-badge.status-in-progress {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.status-badge.status-completed {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.status-badge.status-cancelled {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+/* Stats */
+.stat-item.stat-planned .stat-value {
+  color: #3b82f6;
+}
+
+.stat-item.stat-in-progress .stat-value {
+  color: #f59e0b;
+}
+
+.stat-item.stat-completed .stat-value {
+  color: var(--success);
+}
+
+/* Trip Details Modal */
+.trip-details-modal {
+  max-width: 700px;
+}
+
+.trip-details-header {
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  background: linear-gradient(
+    135deg,
+    rgba(94, 234, 212, 0.05) 0%,
+    rgba(192, 132, 252, 0.05) 100%
+  );
+}
+
+.trip-details-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-300);
+  margin: 0;
+  font-family: monospace;
+}
+
+.trip-details-body {
+  padding: var(--space-6);
+}
+
+/* Route Display */
+.route-display {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+}
+
+.route-point {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.route-point div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.route-point strong {
+  color: var(--text-primary);
+}
+
+.route-point span {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.route-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.route-marker.origin-marker {
+  background: var(--primary-300);
+}
+
+.route-marker.destination-marker {
+  background: var(--accent-purple);
+}
+
+.route-line {
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(
+    to bottom,
+    var(--primary-300),
+    var(--accent-purple)
+  );
+  margin-left: 5px;
+}
+
+/* Info Items */
+.info-item.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Confirm dialog improvements */
+.confirm-dialog .form-group {
+  margin: var(--space-4) 0;
+}
+
+.confirm-dialog .form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.confirm-dialog .form-group input,
+.confirm-dialog .form-group textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.confirm-dialog .form-group input:focus,
+.confirm-dialog .form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-300);
+  box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.1);
+}
+
+.confirm-dialog .form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .route-cell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+
+  .route-cell svg {
+    transform: rotate(90deg);
+  }
+
+  .trips-table th,
+  .trips-table td {
+    padding: var(--space-2);
+    font-size: 0.8rem;
+  }
+
+  .trip-details-modal {
+    max-width: 100%;
+    margin: var(--space-2);
+  }
+}
