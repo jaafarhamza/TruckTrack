@@ -1,0 +1,123 @@
+.mileage-update-modal {
+  max-width: 500px;
+  padding: var(--space-6);
+}
+
+.mileage-update-modal h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tire-info-summary {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--border-subtle);
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) 0;
+}
+
+.info-row:not(:last-child) {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.info-row .label {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.info-row .value {
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.mileage-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.preview-section {
+  background: linear-gradient(
+    135deg,
+    rgba(94, 234, 212, 0.05) 0%,
+    rgba(192, 132, 252, 0.05) 100%
+  );
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.preview-section h3 {
+  margin: 0 0 var(--space-3) 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.preview-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.preview-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.preview-change {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.preview-change svg {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.old-value {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.new-value {
+  font-size: 1rem;
+  color: var(--primary-400);
+  font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .mileage-update-modal {
+    max-width: 95vw;
+    padding: 1.5rem;
+  }
+
+  .preview-grid {
+    grid-template-columns: 1fr;
+  }
+}

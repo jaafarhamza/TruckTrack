@@ -1,0 +1,84 @@
+//User Roles
+export const USER_ROLES = {
+  ADMIN: "ADMIN",
+  DRIVER: "DRIVER",
+};
+
+//Vehicle Status
+export const VEHICLE_STATUS = {
+  AVAILABLE: "AVAILABLE",
+  ON_TRIP: "ON_TRIP",
+  UNDER_MAINTENANCE: "UNDER_MAINTENANCE",
+  OUT_OF_SERVICE: "OUT_OF_SERVICE",
+};
+
+//Trailer Types
+export const TRAILER_TYPES = {
+  FLATBED: "FLATBED",
+  REFRIGERATED: "REFRIGERATED",
+  TANKER: "TANKER",
+  CONTAINER: "CONTAINER",
+  LOWBOY: "LOWBOY",
+  DRY_VAN: "DRY_VAN",
+};
+
+//HTTP Status Codes
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  CONFLICT: 409,
+  INTERNAL_SERVER_ERROR: 500,
+};
+
+//Tire Status
+export const TIRE_STATUS = {
+  NEW: "NEW",
+  GOOD: "GOOD",
+  WORN: "WORN",
+  TO_REPLACE: "TO_REPLACE",
+};
+
+//Tire Position
+export const TIRE_POSITION = {
+  FRONT_LEFT: "FRONT_LEFT",
+  FRONT_RIGHT: "FRONT_RIGHT",
+  REAR_LEFT: "REAR_LEFT",
+  REAR_RIGHT: "REAR_RIGHT",
+  SPARE: "SPARE",
+};
+
+//Vehicle Type
+export const VEHICLE_TYPE = {
+  TRUCK: "Truck",
+  TRAILER: "Trailer",
+};
+
+//Fuel Type
+export const FUEL_TYPE = {
+  DIESEL: "DIESEL",
+  GASOLINE: "GASOLINE",
+  ELECTRIC: "ELECTRIC",
+  HYBRID: "HYBRID",
+};
+
+//Trip Status
+export const TRIP_STATUS = {
+  PLANNED: "PLANNED",
+  IN_PROGRESS: "IN_PROGRESS",
+  COMPLETED: "COMPLETED",
+  CANCELLED: "CANCELLED",
+};
+
+//Maintenance Type
+export const MAINTENANCE_TYPE = {
+  TIRE: "TIRE",
+  OIL_CHANGE: "OIL_CHANGE",
+  CHECKUP: "CHECKUP",
+  BRAKES: "BRAKES",
+  FILTERS: "FILTERS",
+  BELT: "BELT",
+};

@@ -1,0 +1,180 @@
+@import "./AdminPanel.css";
+
+/* Fuel-specific styles */
+.fuel-date {
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: color var(--transition-fast);
+}
+
+.fuel-date:hover {
+  color: var(--primary-400);
+}
+
+.vehicle-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.vehicle-plate-link {
+  font-weight: 600;
+  color: var(--primary-400);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  display: inline-block;
+}
+
+.vehicle-plate-link:hover {
+  color: var(--primary-300);
+  text-decoration: underline;
+}
+
+.vehicle-type-badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  width: fit-content;
+}
+
+.vehicle-type-badge.type-truck {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.vehicle-type-badge.type-trailer {
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.location-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.station-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.city-name {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.fuel-type-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.date-filter {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  transition: all var(--transition-fast);
+}
+
+.date-filter:focus {
+  outline: none;
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+/* Fuel Details Modal */
+.fuel-details-modal {
+  max-width: 700px;
+}
+
+.details-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.details-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.info-value-link {
+  font-size: 1rem;
+  color: var(--primary-400);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.info-value-link:hover {
+  color: var(--primary-300);
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .admin-toolbar {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .search-box {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vehicle-cell {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .location-cell {
+    gap: 0.25rem;
+  }
+}

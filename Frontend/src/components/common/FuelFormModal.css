@@ -1,0 +1,94 @@
+.fuel-form-modal {
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--space-6);
+}
+
+.fuel-form-modal h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.fuel-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fuel-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.fuel-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fuel-form label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.fuel-form input,
+.fuel-form select {
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  transition: all 0.2s;
+}
+
+.fuel-form input:focus,
+.fuel-form select:focus {
+  outline: none;
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+}
+
+.fuel-form input.error,
+.fuel-form select.error {
+  border-color: var(--danger);
+}
+
+.fuel-form .error-message {
+  font-size: 0.8125rem;
+  color: var(--danger);
+  margin-top: -0.25rem;
+}
+
+.fuel-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .fuel-form-modal {
+    max-width: 95vw;
+    padding: 1.5rem;
+  }
+
+  .fuel-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .fuel-form .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .fuel-form .form-actions button {
+    width: 100%;
+  }
+}

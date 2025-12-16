@@ -1,0 +1,70 @@
+.trip-form-modal {
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.trip-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-section {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  border: 1px solid var(--border-subtle);
+}
+
+.form-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-300);
+  margin: 0 0 var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.form-group.flex-2 {
+  flex: 2;
+}
+
+.trip-form textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all var(--transition-fast);
+}
+
+.trip-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-300);
+  box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.1);
+}
+
+.trip-form textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .trip-form-modal {
+    max-width: 100%;
+    margin: var(--space-2);
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-group.flex-2 {
+    flex: 1;
+  }
+}

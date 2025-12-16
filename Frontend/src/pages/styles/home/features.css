@@ -1,0 +1,129 @@
+/* Features Section */
+.features {
+  padding: var(--space-16) var(--space-6);
+  background: var(--bg-main);
+}
+
+.features-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.section-tag {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  background: rgba(94, 234, 212, 0.1);
+  color: var(--primary-300);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-6);
+}
+
+.feature-card {
+  background: var(--bg-surface);
+  padding: var(--space-8);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--border-subtle);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--border-default);
+}
+
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+}
+
+.feature-icon-blue {
+  background: rgba(94, 234, 212, 0.1);
+  color: var(--primary-300);
+}
+
+.feature-icon-orange {
+  background: rgba(192, 132, 252, 0.1);
+  color: var(--secondary-400);
+}
+
+.feature-icon-green {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+}
+
+.feature-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Footer */
+.footer {
+  background: var(--bg-surface);
+  padding: var(--space-8) var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.footer-text {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}

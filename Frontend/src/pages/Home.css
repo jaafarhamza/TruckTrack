@@ -1,0 +1,52 @@
+/* Import home modules */
+@import "./styles/home/navbar.css";
+@import "./styles/home/hero.css";
+@import "./styles/home/features.css";
+
+.home {
+  min-height: 100vh;
+  background: var(--bg-main);
+  overflow-x: hidden;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 var(--space-4);
+  }
+
+  .hero {
+    padding: var(--space-16) var(--space-4);
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-lg {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .hero-stats {
+    gap: var(--space-4);
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .features {
+    padding: var(--space-12) var(--space-4);
+  }
+
+  .footer-container {
+    justify-content: center;
+    text-align: center;
+  }
+}
