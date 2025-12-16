@@ -20,6 +20,8 @@ const router = express.Router();
 router.use(protect);
 
 // Driver routes
+router.get("/my-trips/stats", tripController.getMyTripStats);
+router.get("/my-trips/:id", tripController.getMyTripById);
 router.get("/my-trips", tripController.getMyTrips);
 
 // Admin routes

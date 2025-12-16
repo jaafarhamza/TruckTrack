@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Trip from "../models/Trip.js";
 import Truck from "../models/Truck.js";
 import Trailer from "../models/Trailer.js";
@@ -96,7 +97,7 @@ export const getTripById = async (tripId) => {
     .populate("trailer", "plateNumber type brand model status");
 
   if (!trip) {
-    throw new CustomError("Trip not found", HTTP_STATUS.NOT_FOUND); 
+    throw new CustomError("Trip not found", HTTP_STATUS.NOT_FOUND);
   }
 
   return trip;
@@ -129,6 +130,58 @@ export const getTripsByDriver = async (driverId, options = {}) => {
       totalItems,
       itemsPerPage: parseInt(limit),
     },
+  };
+};
+
+// Get specific trip by ID for driver
+export const getDriverTripById = async (driverId, tripId) => {
+  const trip = await Trip.findOne({ _id: tripId, driver: driverId })
+    .populate("driver", "firstName lastName username email phone")
+    .populate("truck", "plateNumber brand model mileage status")
+    .populate("trailer", "plateNumber type brand model status");
+
+  if (!trip) {
+    throw new CustomError(
+      "Trip not found or you don't have access",
+      HTTP_STATUS.NOT_FOUND
+    );
+  }
+
+  return trip;
+};
+
+// Get driver's trip stats
+export const getDriverTripStats = async (driverId) => {
+  const driverObjectId = new mongoose.Types.ObjectId(driverId);
+
+  const [total, planned, inProgress, completed, totalDistance] =
+    await Promise.all([
+      Trip.countDocuments({ driver: driverId }),
+      Trip.countDocuments({ driver: driverId, status: TRIP_STATUS.PLANNED }),
+      Trip.countDocuments({
+        driver: driverId,
+        status: TRIP_STATUS.IN_PROGRESS,
+      }),
+      Trip.countDocuments({ driver: driverId, status: TRIP_STATUS.COMPLETED }),
+      Trip.aggregate([
+        { $match: { driver: driverObjectId, status: TRIP_STATUS.COMPLETED } },
+        {
+          $group: {
+            _id: null,
+            totalDistance: {
+              $sum: { $subtract: ["$endKm", "$startKm"] },
+            },
+          },
+        },
+      ]),
+    ]);
+
+  return {
+    total,
+    planned,
+    inProgress,
+    completed,
+    totalDistance: totalDistance[0]?.totalDistance || 0,
   };
 };
 

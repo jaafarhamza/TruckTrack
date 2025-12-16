@@ -40,12 +40,50 @@ export const getTripById = async (req, res) => {
 // Get trips by driver
 export const getMyTrips = async (req, res) => {
   try {
-    const result = await tripService.getTripsByDriver(req.user._id, req.query);
+    const result = await tripService.getTripsByDriver(req.user.id, req.query);
     return successResponse(
       res,
       HTTP_STATUS.OK,
       "Trips retrieved successfully",
       result
+    );
+  } catch (error) {
+    return errorResponse(
+      res,
+      error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      error.message
+    );
+  }
+};
+
+// Get specific trip by ID
+export const getMyTripById = async (req, res) => {
+  try {
+    const trip = await tripService.getDriverTripById(
+      req.user.id,
+      req.params.id
+    );
+    return successResponse(res, HTTP_STATUS.OK, "Trip retrieved successfully", {
+      trip,
+    });
+  } catch (error) {
+    return errorResponse(
+      res,
+      error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      error.message
+    );
+  }
+};
+
+// Get driver's trip stats
+export const getMyTripStats = async (req, res) => {
+  try {
+    const stats = await tripService.getDriverTripStats(req.user.id);
+    return successResponse(
+      res,
+      HTTP_STATUS.OK,
+      "Trip stats retrieved successfully",
+      { stats }
     );
   } catch (error) {
     return errorResponse(
