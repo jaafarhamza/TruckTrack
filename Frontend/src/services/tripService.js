@@ -40,6 +40,19 @@ export const getMyTrips = async (params = {}) => {
   return response.data;
 };
 
+// Get driver trips
+export const getDriverTrips = async (driverId, params = {}) => {
+  const queryParams = new URLSearchParams();
+  if (params.status) queryParams.append("status", params.status);
+  if (params.page) queryParams.append("page", params.page);
+  if (params.limit) queryParams.append("limit", params.limit);
+
+  const response = await api.get(
+    `/trips/driver/${driverId}?${queryParams.toString()}`
+  );
+  return response.data;
+};
+
 // Create trip
 export const createTrip = async (tripData) => {
   const response = await api.post("/trips", tripData);

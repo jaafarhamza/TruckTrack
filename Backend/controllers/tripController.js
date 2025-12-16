@@ -56,6 +56,28 @@ export const getMyTrips = async (req, res) => {
   }
 };
 
+// Get trips by driver ID (for admin)
+export const getDriverTrips = async (req, res) => {
+  try {
+    const result = await tripService.getTripsByDriver(
+      req.params.driverId,
+      req.query
+    );
+    return successResponse(
+      res,
+      HTTP_STATUS.OK,
+      "Driver trips retrieved successfully",
+      result
+    );
+  } catch (error) {
+    return errorResponse(
+      res,
+      error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      error.message
+    );
+  }
+};
+
 // Get trip stats
 export const getTripStats = async (req, res) => {
   try {

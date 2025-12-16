@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import * as driverService from '../services/driverService';
 import Sidebar from '../components/common/Sidebar';
 import DriverFormModal from '../components/common/DriverFormModal';
+import DriverTripHistoryModal from '../components/common/DriverTripHistoryModal';
 import ProfileModal from '../components/common/ProfileModal';
 import './DriversPage.css';
 
@@ -25,6 +26,7 @@ const DriversPage = () => {
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [toast, setToast] = useState({ show: false, message: '', type: '' });
   const [stats, setStats] = useState({ total: 0, active: 0, inactive: 0 });
+  const [tripHistoryDriver, setTripHistoryDriver] = useState(null);
 
   const fetchDrivers = useCallback(async () => {
     setLoading(true);
@@ -349,6 +351,19 @@ const DriversPage = () => {
                               )}
                             </svg>
                           </button>
+                          <button
+                            className="btn-icon btn-icon-info"
+                            onClick={() => setTripHistoryDriver(driver)}
+                            disabled={actionLoading === driver._id}
+                            title="View trip history"
+                          >
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <circle cx="6" cy="6" r="3"/>
+                              <circle cx="18" cy="18" r="3"/>
+                              <path d="M6 9v4c0 1.1.9 2 2 2h4"/>
+                              <path d="M14 15l4 4"/>
+                            </svg>
+                          </button>
                           {actionLoading === driver._id && (
                             <div className="action-spinner"></div>
                           )}
@@ -546,6 +561,13 @@ const DriversPage = () => {
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
         initialUser={currentUser}
+      />
+
+      {/* Driver Trip History Modal */}
+      <DriverTripHistoryModal
+        isOpen={!!tripHistoryDriver}
+        onClose={() => setTripHistoryDriver(null)}
+        driver={tripHistoryDriver}
       />
 
       {/* Toast Notification */}
